@@ -1,16 +1,10 @@
-export type ContinentId =
-  | "north-america"
-  | "south-america"
-  | "europe"
-  | "africa"
-  | "asia"
-  | "australia";
+import type { ContinentId, TerritoryId } from "@risk/shared";
 
-export type Territory = {
-  id: string;
+export type MapTerritory = {
+  id: TerritoryId;
   name: string;
-  continent: ContinentId;
-  points: string;
+  continentId: ContinentId;
+  svgPath: string;
   center: {
     x: number;
     y: number;
@@ -18,7 +12,7 @@ export type Territory = {
   troops: number;
 };
 
-export type Continent = {
+export type MapContinent = {
   id: ContinentId;
   name: string;
   color: string;

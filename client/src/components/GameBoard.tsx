@@ -1,10 +1,11 @@
 import { useMemo, useState, type KeyboardEvent } from "react";
+import type { TerritoryId } from "@risk/shared";
 import { continents, MAP_VIEW_BOX, territories } from "../utils/mapData";
 import styles from "./GameBoard.module.css";
 
 const territoryOrder = territories.map((territory) => territory.id);
 
-const getTerritoryName = (territoryId: string | null): string => {
+const getTerritoryName = (territoryId: TerritoryId | null): string => {
   if (!territoryId) {
     return "None";
   }
@@ -13,15 +14,15 @@ const getTerritoryName = (territoryId: string | null): string => {
 };
 
 export const GameBoard = (): JSX.Element => {
-  const [selectedTerritoryId, setSelectedTerritoryId] = useState<string | null>(null);
-  const [targetTerritoryId, setTargetTerritoryId] = useState<string | null>(null);
-  const [hoveredTerritoryId, setHoveredTerritoryId] = useState<string | null>(null);
+  const [selectedTerritoryId, setSelectedTerritoryId] = useState<TerritoryId | null>(null);
+  const [targetTerritoryId, setTargetTerritoryId] = useState<TerritoryId | null>(null);
+  const [hoveredTerritoryId, setHoveredTerritoryId] = useState<TerritoryId | null>(null);
 
   const continentLookup = useMemo(() => {
     return new Map(continents.map((continent) => [continent.id, continent] as const));
   }, []);
 
-  const handleTerritoryClick = (territoryId: string, isShift: boolean): void => {
+  const handleTerritoryClick = (territoryId: TerritoryId, isShift: boolean): void => {
     if (isShift) {
       setTargetTerritoryId((current) => (current === territoryId ? null : territoryId));
       return;
@@ -85,7 +86,7 @@ export const GameBoard = (): JSX.Element => {
           ))}
 
           {territories.map((territory) => {
-            const continent = continentLookup.get(territory.continent);
+            const continent = continentLookup.get(territory.continentId);
             const isSelected = selectedTerritoryId === territory.id;
             const isTarget = targetTerritoryId === territory.id;
             const isHovered = hoveredTerritoryId === territory.id;
@@ -104,7 +105,7 @@ export const GameBoard = (): JSX.Element => {
                 <polygon
                   className={className}
                   style={{ fill: continent?.color ?? "#999" }}
-                  points={territory.points}
+                  points={territory.svgPath}
                   onClick={(event) => handleTerritoryClick(territory.id, event.shiftKey)}
                   onMouseEnter={() => setHoveredTerritoryId(territory.id)}
                   onMouseLeave={() => setHoveredTerritoryId(null)}
@@ -163,4 +164,8 @@ export const GameBoard = (): JSX.Element => {
     </div>
   );
 };
+
+
+
+
 
