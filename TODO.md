@@ -22,17 +22,19 @@
 
 ## Phase 1 — Core Game Engine (Backend)
 
-- [~] Design territory map data structure + adjacency graph (@claude-code)
-- [ ] Implement game state machine (phases: deploy, attack, fortify) (@claude-code)
-- [ ] Implement dice combat resolver (@claude-code)
-- [ ] Implement reinforcement calculator (@claude-code)
-- [ ] Implement territory card system (@claude-code)
+- [x] Design territory map data structure + adjacency graph (@claude-code)
+- [x] Implement game state machine (phases: deploy, attack, fortify) (@claude-code)
+- [x] Implement dice combat resolver (@claude-code)
+- [x] Implement reinforcement calculator (@claude-code)
+- [x] Implement territory card system (@claude-code)
 - [ ] Set up Socket.io server for game events (@claude-code)
-- [ ] Write unit tests for game engine (@claude-code)
+- [x] Write unit tests for game engine — 60 tests passing (@claude-code)
 
 ## Phase 2 — Core UI (Frontend)
 
 - [x] Create game board component with SVG territory map (@codex)
+- [~] Add adjacency highlighting on map interactions (@codex)
+- [~] Refine map visuals (parchment, labels, badges) (@codex)
 - [ ] Create player dashboard (troops, cards, status) (@codex)
 - [ ] Create dice roll animation component (@codex)
 - [ ] Create lobby / game creation screen (@codex)

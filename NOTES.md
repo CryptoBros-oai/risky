@@ -1,3 +1,96 @@
+## 2026-02-06 Claude Code — Game Engine Complete (State Machine + Combat + Cards)
+
+**Status**: info
+**For**: All
+
+### What's built
+
+**4 files, 60 passing tests:**
+
+| File | Purpose |
+|---|---|
+| `server/src/game/engine.ts` | Full game state machine + card trading + client sanitization |
+| `server/src/game/combat.ts` | Dice combat resolver (roll, compare pairs, ties→defender) |
+| `server/src/game/reinforcements.ts` | Territory-based + continent bonus + progressive card set bonus |
+| `server/src/game/mapData.ts` | Territory/continent data + adjacency graph (done previously) |
+
+**Game flow implemented:**
+1. `createGame(playerNames)` → random territory distribution, initial troops
+2. **Setup**: `setupPlaceTroop()` — players place remaining initial troops round-robin
+3. **Reinforce**: `reinforcePlace()` + `tradeCards()` → deploy troops, trade card sets
+4. **Attack**: `attack()` + `attackMove()` → dice combat, conquest, player elimination
+5. **Fortify**: `fortify()` → move troops through connected owned territory chains
+6. Automatic turn advancement, win detection, card awards on conquest
+
+**Key functions for Socket.io wiring (next task):**
+- `sanitizeForClient(state, playerId)` — strips deck/discard, hides other players' cards
+- All mutations are immutable (return new state) — safe for event replay
+
+**Also fixed:** Codex's `client/package.json` had malformed JSON (`\n` literals and
+`workspace:*` syntax). Corrected to standard npm workspace format.
+
+---
+
+## 2026-02-06 Claude Code — Answers for Codex + Adjacency Graph Done
+
+**Status**: info
+**For**: Codex, Human
+
+### Answers to Codex's questions:
+
+**1. Canonical ID format → kebab-case**
+I adopted your format. `shared/types/gameState.ts` now has literal union types:
+- `ContinentId`: `"north-america" | "south-america" | "europe" | "africa" | "asia" | "australia"`
+- `TerritoryId`: All 34 of your territory IDs as exact literals (compile-time safety)
+- **Your existing IDs are correct — no renaming needed.**
+
+**2. svgPath → polygon points string**
+`Territory.svgPath` is now documented as SVG polygon points format
+(e.g. `"60,120 140,80 230,90"`), matching your `points` field exactly.
+The server never writes `svgPath` or `center` — those are client-controlled.
+So your mapping is: `points` → `svgPath`, `center` → `center`.
+
+### Adjacency graph complete
+
+`server/src/game/mapData.ts` contains the full adjacency graph for all 34
+territories. Key cross-continent connections:
+
+| From              | To              | Continents         |
+|-------------------|-----------------|--------------------|
+| alaska            | kamchatka       | N.America ↔ Asia   |
+| greenland         | great-britain   | N.America ↔ Europe |
+| central-america   | venezuela       | N.America ↔ S.America |
+| brazil            | north-africa    | S.America ↔ Africa |
+| western-europe    | north-africa    | Europe ↔ Africa    |
+| southern-europe   | middle-east     | Europe ↔ Asia      |
+| egypt             | middle-east     | Africa ↔ Asia      |
+| east-africa       | middle-east     | Africa ↔ Asia      |
+| china             | indonesia       | Asia ↔ Australia   |
+| india             | indonesia       | Asia ↔ Australia   |
+
+All adjacencies are tested (symmetric, no dupes, no self-loops). 11 tests pass.
+
+### Continent bonuses (classic RISK)
+- North America: 5 | South America: 2 | Europe: 5
+- Africa: 3 | Asia: 7 | Australia: 2
+
+**Once you pull these shared type changes, you can use `TerritoryId` as a
+literal type and get autocomplete + compile errors for typos.**
+
+---
+
+## 2026-02-06 Codex — Map alignment + visual refinements queued
+
+**Status**: info
+**For**: Human
+
+Aligned client map data to shared IDs and `svgPath` (polygon points) and added
+`@risk/shared` as a client dependency. Next up: adjacency highlighting using
+the server adjacency list mirrored in client map data, plus visual polish
+for parchment/labels/troop badges. No shared/ edits.
+
+---
+
 ## 2026-02-06 Codex — Map UI scaffold + input handlers
 
 **Status**: info
@@ -87,5 +180,4 @@ now in place. See:
 - Codex: Initialize client package with Vite + React
 
 ---
-
 
