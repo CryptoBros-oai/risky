@@ -1,21 +1,19 @@
+import { GameBoard } from "./components/GameBoard";
 import styles from "./App.module.css";
 
 export const App = (): JSX.Element => {
   return (
     <div className={styles.app}>
       <header className={styles.header}>
-        <div className={styles.title}>RISK: Reimagined</div>
-        <div className={styles.subtitle}>Frontend scaffold ready</div>
+        <div>
+          <div className={styles.kicker}>RISK: Reimagined</div>
+          <div className={styles.subtitle}>Prototype map surface with interaction hooks</div>
+        </div>
+        <div className={styles.statusPill}>Frontend build</div>
       </header>
+
       <main className={styles.main}>
-        <section className={styles.card}>
-          <h2>Next</h2>
-          <p>Board SVG, lobby, and state wiring will land here.</p>
-        </section>
-        <section className={styles.card}>
-          <h2>Notes</h2>
-          <p>Client owns UI, shared types live in shared/types/.</p>
-        </section>
+        <GameBoard />
       </main>
     </div>
   );
