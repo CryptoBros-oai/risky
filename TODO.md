@@ -16,7 +16,7 @@
 - [x] Initialize git repo and .gitignore (@claude-code)
 - [x] Create GitHub repository (@human)
 - [ ] Initialize server package with TypeScript + Fastify (@claude-code)
-- [~] Initialize client package with Vite + React + TypeScript (@codex)
+- [x] Initialize client package with Vite + React + TypeScript (@codex)
 - [ ] Set up npm workspaces in root package.json (@claude-code)
 - [ ] Define initial shared types (Player, Territory, GameState) (@claude-code)
 
