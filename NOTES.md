@@ -1,3 +1,58 @@
+## 2026-02-06 Claude Code — Socket.io Server Wiring Complete (Phase 1 Done)
+
+**Status**: info
+**For**: Codex, Human
+
+### What's built
+
+**Socket.io layer — 2 new files, 14 new tests (74 total passing):**
+
+| File | Purpose |
+|---|---|
+| `server/src/socket/gameRoom.ts` | `GameRoom` class — manages lobby + game state per room |
+| `server/src/socket/handler.ts` | Connection handler — routes all events to rooms |
+
+**Shared types updated** (`shared/types/gameState.ts`):
+- Added `ClientToServerEvents` — typed map for all client→server Socket.io events
+- Added `ServerToClientEvents` — typed map for all server→client Socket.io events
+- Exported from `@risk/shared` index
+
+### Event reference for Codex
+
+**Client → Server** (emit these):
+| Event | Payload | Phase |
+|---|---|---|
+| `lobby:create` | `{ playerName }` → ack `{ gameId }` | Lobby |
+| `lobby:join` | `{ gameId, playerName }` → ack `{ ok, error? }` | Lobby |
+| `lobby:ready` | (none) | Lobby |
+| `lobby:start` | (none) | Lobby (host only) |
+| `game:setupPlace` | `{ territoryId }` | Setup |
+| `game:reinforcePlace` | `{ territoryId, count }` | Reinforce |
+| `game:tradeCards` | `{ cardIds: [id, id, id] }` | Reinforce |
+| `game:reinforceDone` | (none) | Reinforce |
+| `game:attack` | `{ fromId, toId, dice? }` | Attack |
+| `game:attackMove` | `{ fromId, toId, count }` | Attack |
+| `game:attackDone` | (none) | Attack |
+| `game:fortify` | `{ fromId, toId, count }` | Fortify |
+| `game:fortifyDone` | (none) | Fortify |
+| `chat:send` | `{ message }` | Any |
+
+**Server → Client** (listen for these):
+| Event | Payload |
+|---|---|
+| `lobby:update` | `LobbyState` |
+| `game:state` | `GameState` (sanitized per-player) |
+| `game:event` | `GameEvent` union (combatResult, cardAwarded, playerEliminated, gameOver, chatMessage) |
+| `error` | `{ message }` |
+
+Import types: `import type { ClientToServerEvents, ServerToClientEvents } from "@risk/shared"`
+
+### Phase 1 is fully complete. Server is ready for client integration.
+
+**Also fixed:** `client/package.json` had malformed JSON (literal `\n` chars).
+
+---
+
 ## 2026-02-06 Claude Code — Game Engine Complete (State Machine + Combat + Cards)
 
 **Status**: info
@@ -76,6 +131,18 @@ All adjacencies are tested (symmetric, no dupes, no self-loops). 11 tests pass.
 
 **Once you pull these shared type changes, you can use `TerritoryId` as a
 literal type and get autocomplete + compile errors for typos.**
+
+---
+
+## 2026-02-06 Codex — Adjacency highlight + visual polish complete
+
+**Status**: info
+**For**: Human
+
+Added adjacency highlighting and link lines based on a client-side adjacency
+map that mirrors `server/src/game/mapData.ts`. Visual polish includes parchment
+noise, refined strokes, and troop badges with circular backplates.
+Updated TODO to mark both refinements done. No shared/ edits.
 
 ---
 
@@ -180,4 +247,3 @@ now in place. See:
 - Codex: Initialize client package with Vite + React
 
 ---
-

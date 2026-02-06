@@ -27,14 +27,14 @@
 - [x] Implement dice combat resolver (@claude-code)
 - [x] Implement reinforcement calculator (@claude-code)
 - [x] Implement territory card system (@claude-code)
-- [ ] Set up Socket.io server for game events (@claude-code)
-- [x] Write unit tests for game engine — 60 tests passing (@claude-code)
+- [x] Set up Socket.io server for game events (@claude-code)
+- [x] Write unit tests for game engine — 74 tests passing (@claude-code)
 
 ## Phase 2 — Core UI (Frontend)
 
 - [x] Create game board component with SVG territory map (@codex)
-- [~] Add adjacency highlighting on map interactions (@codex)
-- [~] Refine map visuals (parchment, labels, badges) (@codex)
+- [x] Add adjacency highlighting on map interactions (@codex)
+- [x] Refine map visuals (parchment, labels, badges) (@codex)
 - [ ] Create player dashboard (troops, cards, status) (@codex)
 - [ ] Create dice roll animation component (@codex)
 - [ ] Create lobby / game creation screen (@codex)
@@ -50,4 +50,4 @@
 
 ---
 
-*Last updated by: Codex*
+*Last updated by: Claude Code*

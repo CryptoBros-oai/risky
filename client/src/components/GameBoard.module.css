@@ -7,8 +7,9 @@
 
 .mapWrapper {
   border-radius: 24px;
-  padding: 18px;
-  background: radial-gradient(circle at top, #2d4159 0%, #141b24 60%);
+  padding: 16px;
+  background: radial-gradient(circle at top, #324a63 0%, #111821 70%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 20px 40px rgba(10, 14, 20, 0.45);
 }
 
@@ -18,6 +19,7 @@
   display: block;
   border-radius: 18px;
   overflow: hidden;
+  background: #d4b47f;
 }
 
 .mapFrame {
@@ -28,10 +30,10 @@
 
 .continentLabel {
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 1px;
-  fill: rgba(72, 48, 24, 0.65);
+  letter-spacing: 2px;
+  fill: rgba(72, 48, 24, 0.62);
   text-transform: uppercase;
 }
 
@@ -42,8 +44,15 @@
 .territory {
   stroke: rgba(60, 36, 16, 0.75);
   stroke-width: 3;
+  stroke-linejoin: round;
   transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
   transform-origin: center;
+}
+
+.territoryAdjacent {
+  stroke: rgba(255, 235, 190, 0.9);
+  stroke-width: 3.5;
+  filter: brightness(1.04) drop-shadow(0 0 10px rgba(255, 236, 188, 0.4));
 }
 
 .territoryHover {
@@ -67,12 +76,33 @@
   font-weight: 600;
   fill: rgba(35, 20, 8, 0.85);
   pointer-events: none;
+  paint-order: stroke;
+  stroke: rgba(247, 239, 220, 0.7);
+  stroke-width: 3;
+}
+
+.troopBadgeCircle {
+  fill: rgba(248, 235, 208, 0.9);
+  stroke: rgba(96, 64, 32, 0.6);
+  stroke-width: 2;
 }
 
 .troopBadge {
   font-size: 14px;
   font-weight: 700;
   fill: rgba(10, 10, 10, 0.85);
+  pointer-events: none;
+  dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: rgba(248, 235, 208, 0.85);
+  stroke-width: 2;
+}
+
+.adjacencyLine {
+  stroke: rgba(255, 221, 160, 0.55);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+  filter: drop-shadow(0 0 6px rgba(255, 214, 140, 0.35));
   pointer-events: none;
 }
 
@@ -99,6 +129,13 @@
   margin: 0;
   padding-left: 18px;
   font-size: 13px;
+  color: #c8d0dc;
+}
+
+.adjacentList {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
   color: #c8d0dc;
 }
 

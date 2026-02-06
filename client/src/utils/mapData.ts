@@ -1,4 +1,5 @@
 import type { MapContinent, MapTerritory } from "../types/map";
+import type { TerritoryId } from "@risk/shared";
 
 export const MAP_VIEW_BOX = "0 0 1200 700";
 
@@ -315,4 +316,55 @@ export const territories: MapTerritory[] = [
     troops: 3
   }
 ];
+
+export const adjacency: Record<TerritoryId, TerritoryId[]> = {
+  "alaska": ["northwest-territory", "western-us", "kamchatka"],
+  "northwest-territory": ["alaska", "greenland", "western-us", "eastern-us"],
+  "greenland": ["northwest-territory", "eastern-us", "great-britain"],
+  "western-us": ["alaska", "northwest-territory", "eastern-us", "central-america"],
+  "eastern-us": ["northwest-territory", "greenland", "western-us", "central-america"],
+  "central-america": ["western-us", "eastern-us", "venezuela"],
+  "venezuela": ["central-america", "peru", "brazil"],
+  "peru": ["venezuela", "brazil", "argentina"],
+  "brazil": ["venezuela", "peru", "argentina", "north-africa"],
+  "argentina": ["peru", "brazil"],
+  "great-britain": ["greenland", "northern-europe", "western-europe"],
+  "northern-europe": ["great-britain", "western-europe", "southern-europe", "ukraine"],
+  "western-europe": ["great-britain", "northern-europe", "southern-europe", "north-africa"],
+  "southern-europe": [
+    "northern-europe",
+    "western-europe",
+    "ukraine",
+    "north-africa",
+    "egypt",
+    "middle-east"
+  ],
+  "ukraine": ["northern-europe", "southern-europe", "middle-east", "ural"],
+  "north-africa": [
+    "brazil",
+    "western-europe",
+    "southern-europe",
+    "egypt",
+    "congo",
+    "east-africa"
+  ],
+  "egypt": ["southern-europe", "north-africa", "east-africa", "middle-east"],
+  "congo": ["north-africa", "east-africa", "south-africa"],
+  "east-africa": ["north-africa", "egypt", "congo", "south-africa", "madagascar", "middle-east"],
+  "south-africa": ["congo", "east-africa", "madagascar"],
+  "madagascar": ["east-africa", "south-africa"],
+  "middle-east": ["southern-europe", "ukraine", "egypt", "east-africa", "india", "china"],
+  "ural": ["ukraine", "siberia", "china", "mongolia"],
+  "siberia": ["ural", "yakutsk", "mongolia", "china"],
+  "yakutsk": ["siberia", "kamchatka", "mongolia"],
+  "kamchatka": ["alaska", "yakutsk", "mongolia", "japan"],
+  "mongolia": ["ural", "siberia", "yakutsk", "kamchatka", "china", "japan"],
+  "china": ["middle-east", "ural", "siberia", "mongolia", "india", "indonesia"],
+  "india": ["middle-east", "china", "indonesia"],
+  "japan": ["kamchatka", "mongolia"],
+  "indonesia": ["china", "india", "new-guinea", "western-australia"],
+  "new-guinea": ["indonesia", "western-australia", "eastern-australia"],
+  "western-australia": ["indonesia", "new-guinea", "eastern-australia"],
+  "eastern-australia": ["new-guinea", "western-australia"]
+};
 
