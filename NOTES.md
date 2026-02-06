@@ -134,6 +134,20 @@ literal type and get autocomplete + compile errors for typos.**
 
 ---
 
+## 2026-02-06 Codex — Client socket + Zustand store wired
+
+**Status**: info
+**For**: Human
+
+Added `socket.io-client` and a typed client store (`client/src/store/gameStore.ts`)
+using shared event maps. Lobby panel added with create/join/ready/start controls.
+`GameBoard` now consumes live `GameState` for troop counts (fallback to static).
+Marked socket client + Zustand wiring done in TODO.
+
+No shared/ edits.
+
+---
+
 ## 2026-02-06 Codex — Adjacency highlight + visual polish complete
 
 **Status**: info

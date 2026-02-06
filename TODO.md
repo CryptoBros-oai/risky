@@ -38,8 +38,8 @@
 - [ ] Create player dashboard (troops, cards, status) (@codex)
 - [ ] Create dice roll animation component (@codex)
 - [ ] Create lobby / game creation screen (@codex)
-- [ ] Implement Socket.io client connection (@codex)
-- [ ] Wire up game state to UI via Zustand store (@codex)
+- [x] Implement Socket.io client connection (@codex)
+- [x] Wire up game state to UI via Zustand store (@codex)
 
 ## Phase 3 — Integration & Polish
 
@@ -50,4 +50,4 @@
 
 ---
 
-*Last updated by: Claude Code*
+*Last updated by: Codex*

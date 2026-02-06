@@ -1,6 +1,7 @@
 import { useMemo, useState, type KeyboardEvent } from "react";
-import type { TerritoryId } from "@risk/shared";
+import type { GameState, TerritoryId } from "@risk/shared";
 import { adjacency, continents, MAP_VIEW_BOX, territories } from "../utils/mapData";
+import { LobbyPanel } from "./LobbyPanel";
 import styles from "./GameBoard.module.css";
 
 const territoryOrder = territories.map((territory) => territory.id);
@@ -24,7 +25,11 @@ const getTerritoryNames = (territoryIds: TerritoryId[]): string => {
     .join(", ");
 };
 
-export const GameBoard = (): JSX.Element => {
+export type GameBoardProps = {
+  gameState?: GameState | null;
+};
+
+export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => {
   const [selectedTerritoryId, setSelectedTerritoryId] = useState<TerritoryId | null>(null);
   const [targetTerritoryId, setTargetTerritoryId] = useState<TerritoryId | null>(null);
   const [hoveredTerritoryId, setHoveredTerritoryId] = useState<TerritoryId | null>(null);
@@ -142,6 +147,8 @@ export const GameBoard = (): JSX.Element => {
             const isTarget = targetTerritoryId === territory.id;
             const isHovered = hoveredTerritoryId === territory.id;
             const isAdjacent = adjacentSet.has(territory.id);
+            const troopCount =
+              gameState?.territories[territory.id]?.troops ?? territory.troops;
 
             const className = [
               styles.territory,
@@ -185,7 +192,7 @@ export const GameBoard = (): JSX.Element => {
                   y={territory.center.y + 18}
                   textAnchor="middle"
                 >
-                  {territory.troops}
+                  {troopCount}
                 </text>
               </g>
             );
@@ -194,6 +201,7 @@ export const GameBoard = (): JSX.Element => {
       </div>
 
       <aside className={styles.sidebar}>
+        <LobbyPanel />
         <div className={styles.panel}>
           <h2>Map Controls</h2>
           <ul>
