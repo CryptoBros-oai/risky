@@ -1,0 +1,9 @@
+{
+  "name": "@risk/shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "types/index.ts",
+  "types": "types/index.ts",
+  "scripts": {}
+}

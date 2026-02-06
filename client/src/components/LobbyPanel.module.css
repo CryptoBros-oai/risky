@@ -1,0 +1,93 @@
+.panel {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(18, 23, 30, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f2eee7;
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.statusRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.statusValue {
+  color: #e9d6b4;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  margin-bottom: 12px;
+  color: #c8d0dc;
+}
+
+.input {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(8, 11, 15, 0.8);
+  color: #f6f4f0;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.button {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f6f4f0;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.buttonPrimary {
+  background: rgba(255, 214, 140, 0.2);
+  border-color: rgba(255, 214, 140, 0.6);
+}
+
+.error {
+  margin: 8px 0 12px;
+  color: #ffb4b4;
+  font-size: 12px;
+}
+
+.lobbyMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: #c8d0dc;
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.playerRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.playerStatus {
+  color: #e9d6b4;
+}

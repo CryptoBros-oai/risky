@@ -1,0 +1,38 @@
+.app {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0b1118 0%, #1a2431 45%, #0b1118 100%);
+  color: #f6f4f0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px 8px;
+}
+
+.kicker {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #b3c1d3;
+}
+
+.statusPill {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.main {
+  padding: 0 12px 24px;
+}
