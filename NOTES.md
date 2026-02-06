@@ -1,3 +1,90 @@
+## 2026-02-06 Claude Code — Phase 3 Features Complete (Mini-Battles, Diplomacy, AI)
+
+**Status**: info
+**For**: Codex, Human
+
+### What's built — 3 new systems, 4 new files, 37 new tests (111 total passing)
+
+| File | Purpose |
+|---|---|
+| `server/src/game/miniBattle.ts` | Army composition, battle validation, AI auto-simulation |
+| `server/src/game/diplomacy.ts` | Non-aggression pacts, acceptance, breaking + desertion penalty |
+| `server/src/game/ai.ts` | AI opponent logic for all game phases (easy/medium/hard) |
+| `server/src/socket/handler.ts` | Updated — 4 new event routes (battleResult, diplomacy) |
+| `server/src/socket/gameRoom.ts` | Updated — handlers for battles, pacts, and AI turn execution |
+
+### Shared types updated (`shared/types/gameState.ts`)
+
+New types added to the contract:
+- `BattleUnitType`, `BattleUnit`, `BattleArmy` — mini-battle army composition
+- `MiniBattleState`, `MiniBattleResult` — battle start/end payloads
+- `DiplomacyPact`, `PactBreakPenalty` — pact lifecycle + desertion
+- `AiDifficulty` (`"easy" | "medium" | "hard"`), `AiPlayerConfig`
+- `GameState` updated: `activeBattle`, `pacts`, `battleMode`, `aiPlayerIds`
+- `GameConfig` updated: `battleMode`, `diplomacyEnabled`, `pactBreakDesertionRate`
+
+### New Socket.io events for Codex
+
+**Client → Server** (new events to emit):
+| Event | Payload | When |
+|---|---|---|
+| `game:battleResult` | `MiniBattleResult` | After tactical battle concludes on client |
+| `diplomacy:propose` | `{ targetPlayerId }` | Player proposes a pact |
+| `diplomacy:accept` | `{ pactId }` | Player accepts an incoming pact |
+| `diplomacy:reject` | `{ pactId }` | Player rejects an incoming pact |
+
+**Server → Client** (new events to listen for):
+| Event | Payload | When |
+|---|---|---|
+| `game:event` type `"miniBattleStart"` | `{ battle: MiniBattleState }` | Tactical attack begins — render battle scene |
+| `game:event` type `"miniBattleEnd"` | `{ result, conquered }` | Battle ends — update map |
+| `game:event` type `"pactProposed"` | `{ pact: DiplomacyPact }` | Show pact proposal UI |
+| `game:event` type `"pactAccepted"` | `{ pact: DiplomacyPact }` | Pact confirmed |
+| `game:event` type `"pactBroken"` | `{ penalty: PactBreakPenalty }` | Pact broken — show desertion animation |
+| `game:event` type `"aiTurnStart"` | `{ playerId }` | AI turn begins |
+| `game:event` type `"aiTurnEnd"` | `{ playerId }` | AI turn ends |
+
+### Mini-Battle System
+
+Troop count → army composition conversion:
+| Troops | Infantry | Cavalry | Cannons |
+|--------|----------|---------|---------|
+| 1-3    | 1-3      | 0       | 0       |
+| 4-6    | 3        | 1-3     | 0       |
+| 7-9    | 3-4      | 3       | 1-2     |
+| 10-12+ | 5-6      | 3       | 2-3 (capped at 6/3/3) |
+
+In **tactical mode** (`battleMode: "tactical"`):
+- Attacks create a `MiniBattleState` sent to both players
+- Client renders the battle scene (60s time limit)
+- Client sends back `MiniBattleResult` with unit survivors
+- Server validates (no cheating) and applies results to game state
+
+In **classic mode** (`battleMode: "classic"`): Standard dice combat, unchanged.
+
+When AI is involved: server auto-resolves battles via `simulateBattle()`.
+
+### Diplomacy System
+
+- Players can propose non-aggression pacts to each other
+- Pacts prevent attacks between the two players
+- Breaking a pact costs **5-10% of total troops** (desertion/morale loss)
+- Troops are removed from largest garrisons first, always leaving ≥1 per territory
+- AI respects active pacts and will not attack pact partners
+
+### AI Opponents
+
+Three difficulty levels affecting behavior:
+| Aspect | Easy | Medium | Hard |
+|--------|------|--------|------|
+| Attack min ratio | 3.0x | 2.0x | 1.5x |
+| Reinforce spread | Even across borders | Moderate focus | Concentrated |
+| Target selection | Random eligible | Random eligible | Prefers continent completion |
+
+AI turns execute automatically with 500ms delays between actions for visibility.
+
+---
+
 ## 2026-02-06 Claude Code — Socket.io Server Wiring Complete (Phase 1 Done)
 
 **Status**: info
@@ -157,6 +244,18 @@ Added chat panel and event feed (with combat, elimination, card, error events).
 Territories now tint by owning player color (fallback to continent color). Action
 inputs clamp to valid ranges (reinforcements, dice, move counts). New utility
 `client/src/utils/playerColors.ts`. TODO updated.
+
+No shared/ edits.
+
+---
+
+## 2026-02-06 Codex — Turn overlay + card trade UI
+
+**Status**: info
+**For**: Human
+
+Added a turn summary overlay on the map plus a small action log. Added card
+trade panel (select 3 cards → trade during reinforce). TODO updated.
 
 No shared/ edits.
 

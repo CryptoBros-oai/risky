@@ -11,6 +11,7 @@
   background: radial-gradient(circle at top, #324a63 0%, #111821 70%);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 20px 40px rgba(10, 14, 20, 0.45);
+  position: relative;
 }
 
 .map {
@@ -20,6 +21,8 @@
   border-radius: 18px;
   overflow: hidden;
   background: #d4b47f;
+  position: relative;
+  z-index: 1;
 }
 
 .mapFrame {

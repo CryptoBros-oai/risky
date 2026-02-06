@@ -42,14 +42,31 @@
 - [x] Wire up game state to UI via Zustand store (@codex)
 - [x] Add chat panel + event feed (@codex)
 - [x] Add ownership colors + action validation (@codex)
+- [x] Add turn summary overlay + action log (@codex)
+- [x] Add card trade-in panel (@codex)
 
-## Phase 3 — Integration & Polish
+## Phase 3 — Innovative Features (Backend)
+
+- [x] Mini-battle system: army composition + validation + AI simulation (@claude-code)
+- [x] Diplomacy: non-aggression pacts + desertion penalty on break (@claude-code)
+- [x] AI opponents: easy/medium/hard for setup, reinforce, attack, fortify (@claude-code)
+- [x] Wire mini-battle, diplomacy, AI into Socket.io events (@claude-code)
+- [x] Tests for all new systems — 111 total passing (@claude-code)
+
+## Phase 3 — Innovative Features (Frontend)
+
+- [ ] Mini-battle tactical scene (canvas/Pixi.js or SVG) (@codex)
+- [ ] Diplomacy UI: propose/accept/reject pact panel (@codex)
+- [ ] AI player indicators + turn animation (@codex)
+- [ ] Battle mode selector in lobby (classic vs tactical) (@codex)
+
+## Phase 4 — Integration & Polish
 
 - [ ] Connect frontend to backend via Socket.io events (@human)
 - [ ] End-to-end game flow testing (@all)
-- [ ] Add innovative feature #1: TBD (@all)
-- [ ] Add innovative feature #2: TBD (@all)
+- [ ] Game balance tuning (AI ratios, army composition, desertion rate) (@all)
+- [ ] Visual polish and sound effects (@codex)
 
 ---
 
-*Last updated by: Codex*
+*Last updated by: Claude Code*

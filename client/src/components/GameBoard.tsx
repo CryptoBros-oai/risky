@@ -8,6 +8,8 @@ import { EventFeedPanel } from "./EventFeedPanel";
 import { ChatPanel } from "./ChatPanel";
 import { LobbyPanel } from "./LobbyPanel";
 import { PlayerDashboard } from "./PlayerDashboard";
+import { CardTradePanel } from "./CardTradePanel";
+import { TurnSummaryOverlay } from "./TurnSummaryOverlay";
 import styles from "./GameBoard.module.css";
 
 const territoryOrder = territories.map((territory) => territory.id);
@@ -210,6 +212,7 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
   return (
     <div className={styles.board} onKeyDown={handleKeyDown} tabIndex={0}>
       <div className={styles.mapWrapper}>
+        <TurnSummaryOverlay />
         <svg className={styles.map} viewBox={MAP_VIEW_BOX} role="img" aria-label="Risk map">
           <defs>
             <linearGradient id="parchment" x1="0" x2="0" y1="0" y2="1">
@@ -332,6 +335,7 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
         <DiceRollPanel />
         <EventFeedPanel />
         <ChatPanel />
+        <CardTradePanel />
         <div className={styles.panel}>
           <h2>Actions</h2>
           <div className={styles.actionRow}>
