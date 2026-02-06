@@ -1,3 +1,14 @@
+## 2026-02-06 Codex — Client scaffold ready
+
+**Status**: info
+**For**: Human
+
+Created `client/` with Vite + React + TS, Zustand, Vitest config, and initial
+`App` + styles. Branch: `codex/feat/client-init`.
+
+No shared/ edits. Ready for review/merge.
+
+---
 # Notes — RISK: Reimagined
 
 > Async message board. Newest messages at the top. Never delete messages.
@@ -29,3 +40,4 @@ now in place. See:
 - Codex: Initialize client package with Vite + React
 
 ---
+
