@@ -1,8 +1,11 @@
-import { useMemo, useState, type KeyboardEvent } from "react";
-import type { GameState, GamePhase, Territory, TerritoryId } from "@risk/shared";
+import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
+import type { GameState, GamePhase, Player, Territory, TerritoryId } from "@risk/shared";
 import { adjacency, continents, MAP_VIEW_BOX, territories } from "../utils/mapData";
 import { useGameStore } from "../store/gameStore";
+import { playerColorMap } from "../utils/playerColors";
 import { DiceRollPanel } from "./DiceRollPanel";
+import { EventFeedPanel } from "./EventFeedPanel";
+import { ChatPanel } from "./ChatPanel";
 import { LobbyPanel } from "./LobbyPanel";
 import { PlayerDashboard } from "./PlayerDashboard";
 import styles from "./GameBoard.module.css";
@@ -78,25 +81,79 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
   const targetState: Territory | null =
     targetTerritoryId && gameState ? gameState.territories[targetTerritoryId] : null;
 
+  const localPlayer: Player | null =
+    gameState && localPlayerId
+      ? gameState.players.find((player) => player.id === localPlayerId) ?? null
+      : null;
+
+  const playerById = useMemo(() => {
+    if (!gameState) return new Map<string, Player>();
+    return new Map(gameState.players.map((player) => [player.id, player]));
+  }, [gameState]);
+
   const selectedOwnedByMe =
     Boolean(localPlayerId && selectedState?.ownerId === localPlayerId);
   const targetOwnedByMe =
     Boolean(localPlayerId && targetState?.ownerId === localPlayerId);
 
+  const maxMove = Math.max(0, (selectedState?.troops ?? 0) - 1);
+  const maxAttackDice = Math.min(3, maxMove);
+  const remainingReinforcements = localPlayer?.reinforcements ?? 0;
+
   const canSetup = isMyTurn && phase === "setup";
-  const canReinforce = isMyTurn && phase === "reinforce" && selectedOwnedByMe;
+  const canReinforce =
+    isMyTurn &&
+    phase === "reinforce" &&
+    selectedOwnedByMe &&
+    remainingReinforcements > 0 &&
+    actionCount <= remainingReinforcements;
   const canAttack =
     isMyTurn &&
     phase === "attack" &&
     selectedOwnedByMe &&
+    maxAttackDice > 0 &&
     Boolean(targetState && targetState.ownerId && targetState.ownerId !== localPlayerId) &&
     targetIsAdjacent;
   const canAttackMove =
-    isMyTurn && phase === "attack" && selectedOwnedByMe && targetOwnedByMe && targetIsAdjacent;
+    isMyTurn &&
+    phase === "attack" &&
+    selectedOwnedByMe &&
+    targetOwnedByMe &&
+    targetIsAdjacent &&
+    maxMove > 0 &&
+    actionCount <= maxMove;
   const canFortify =
-    isMyTurn && phase === "fortify" && selectedOwnedByMe && targetOwnedByMe && targetIsAdjacent;
+    isMyTurn &&
+    phase === "fortify" &&
+    selectedOwnedByMe &&
+    targetOwnedByMe &&
+    targetIsAdjacent &&
+    maxMove > 0 &&
+    actionCount <= maxMove;
+
+  const actionMax =
+    phase === "reinforce"
+      ? remainingReinforcements
+      : phase === "attack" || phase === "fortify"
+        ? maxMove
+        : 1;
+  const boundedActionMax = Math.max(1, actionMax);
+  const boundedAttackMax = Math.max(1, maxAttackDice);
+
+  useEffect(() => {
+    setActionCount((current) => Math.min(Math.max(1, current), boundedActionMax));
+  }, [boundedActionMax]);
+
+  useEffect(() => {
+    setAttackDice((current) => Math.min(Math.max(1, current), boundedAttackMax));
+  }, [boundedAttackMax]);
 
   const handleTerritoryClick = (territoryId: TerritoryId, isShift: boolean): void => {
+    if (isShift) {
+      setTargetTerritoryId((current) => (current === territoryId ? null : territoryId));
+      return;
+    }
+
     if (gameState && isMyTurn) {
       if (phase === "setup") {
         setupPlace(territoryId);
@@ -105,14 +162,9 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
       if (phase === "reinforce") {
         const ownerId = gameState.territories[territoryId]?.ownerId ?? null;
         if (ownerId === localPlayerId) {
-          reinforcePlace(territoryId, actionCount);
+          reinforcePlace(territoryId, Math.min(actionCount, remainingReinforcements));
         }
       }
-    }
-
-    if (isShift) {
-      setTargetTerritoryId((current) => (current === territoryId ? null : territoryId));
-      return;
     }
 
     setSelectedTerritoryId((current) => (current === territoryId ? null : territoryId));
@@ -146,13 +198,13 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
   const handleActionCountChange = (value: string): void => {
     const parsed = Number(value);
     if (Number.isNaN(parsed)) return;
-    setActionCount(Math.max(1, Math.min(10, Math.floor(parsed))));
+    setActionCount(Math.max(1, Math.min(boundedActionMax, Math.floor(parsed))));
   };
 
   const handleDiceChange = (value: string): void => {
     const parsed = Number(value);
     if (Number.isNaN(parsed)) return;
-    setAttackDice(Math.max(1, Math.min(3, Math.floor(parsed))));
+    setAttackDice(Math.max(1, Math.min(boundedAttackMax, Math.floor(parsed))));
   };
 
   return (
@@ -218,6 +270,11 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
             const isAdjacent = adjacentSet.has(territory.id);
             const troopCount =
               gameState?.territories[territory.id]?.troops ?? territory.troops;
+            const ownerId = gameState?.territories[territory.id]?.ownerId ?? null;
+            const owner = ownerId ? playerById.get(ownerId) : null;
+            const fillColor = owner
+              ? playerColorMap[owner.color]
+              : continent?.color ?? "#999";
 
             const className = [
               styles.territory,
@@ -233,7 +290,7 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
               <g key={territory.id} className={styles.territoryGroup}>
                 <polygon
                   className={className}
-                  style={{ fill: continent?.color ?? "#999" }}
+                  style={{ fill: fillColor }}
                   points={territory.svgPath}
                   onClick={(event) => handleTerritoryClick(territory.id, event.shiftKey)}
                   onMouseEnter={() => setHoveredTerritoryId(territory.id)}
@@ -273,6 +330,8 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
         <LobbyPanel />
         <PlayerDashboard />
         <DiceRollPanel />
+        <EventFeedPanel />
+        <ChatPanel />
         <div className={styles.panel}>
           <h2>Actions</h2>
           <div className={styles.actionRow}>
@@ -282,9 +341,10 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
                 className={styles.actionInput}
                 type="number"
                 min={1}
-                max={10}
+                max={boundedActionMax}
                 value={actionCount}
                 onChange={(event) => handleActionCountChange(event.target.value)}
+                disabled={!isMyTurn}
               />
             </label>
             <label className={styles.actionLabel}>
@@ -293,11 +353,16 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
                 className={styles.actionInput}
                 type="number"
                 min={1}
-                max={3}
+                max={boundedAttackMax}
                 value={attackDice}
                 onChange={(event) => handleDiceChange(event.target.value)}
+                disabled={!isMyTurn || phase !== "attack"}
               />
             </label>
+          </div>
+          <div className={styles.actionHint}>
+            Max count: {phase === "reinforce" ? remainingReinforcements : maxMove} · Max dice:{" "}
+            {maxAttackDice}
           </div>
           <div className={styles.actionButtons}>
             {phase === "setup" && (
@@ -348,7 +413,11 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
                   onClick={() =>
                     selectedTerritoryId &&
                     targetTerritoryId &&
-                    attackMove(selectedTerritoryId, targetTerritoryId, actionCount)
+                    attackMove(
+                      selectedTerritoryId,
+                      targetTerritoryId,
+                      Math.min(actionCount, maxMove)
+                    )
                   }
                 >
                   Move Troops
@@ -367,7 +436,11 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
                   onClick={() =>
                     selectedTerritoryId &&
                     targetTerritoryId &&
-                    fortify(selectedTerritoryId, targetTerritoryId, actionCount)
+                    fortify(
+                      selectedTerritoryId,
+                      targetTerritoryId,
+                      Math.min(actionCount, maxMove)
+                    )
                   }
                 >
                   Fortify

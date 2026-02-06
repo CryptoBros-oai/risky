@@ -12,6 +12,20 @@ import { getSocket } from "../services/socket";
 
 export type ConnectionStatus = "disconnected" | "connecting" | "connected";
 
+export type FeedItem =
+  | { id: string; kind: "event"; event: GameEvent; timestamp: number }
+  | { id: string; kind: "error"; message: string; timestamp: number };
+
+const MAX_FEED_ITEMS = 40;
+
+const createFeedId = (): string => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+const appendFeedItem = (items: FeedItem[], item: FeedItem): FeedItem[] => {
+  const next = [...items, item];
+  if (next.length <= MAX_FEED_ITEMS) return next;
+  return next.slice(next.length - MAX_FEED_ITEMS);
+};
+
 type GameStoreState = {
   socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
   connectionStatus: ConnectionStatus;
@@ -21,6 +35,7 @@ type GameStoreState = {
   lobby: LobbyState | null;
   gameState: GameState | null;
   lastEvent: GameEvent | null;
+  eventLog: FeedItem[];
   connect: () => Promise<void>;
   disconnect: () => void;
   setLocalPlayerName: (name: string) => void;
@@ -86,11 +101,27 @@ const registerSocketListeners = (
   });
 
   socket.on("game:event", (event) => {
-    set({ lastEvent: event });
+    set((state) => ({
+      lastEvent: event,
+      eventLog: appendFeedItem(state.eventLog, {
+        id: createFeedId(),
+        kind: "event",
+        event,
+        timestamp: Date.now()
+      })
+    }));
   });
 
   socket.on("error", (data) => {
-    set({ connectionError: data.message });
+    set((state) => ({
+      connectionError: data.message,
+      eventLog: appendFeedItem(state.eventLog, {
+        id: createFeedId(),
+        kind: "error",
+        message: data.message,
+        timestamp: Date.now()
+      })
+    }));
   });
 };
 
@@ -134,6 +165,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     lobby: null,
     gameState: null,
     lastEvent: null,
+    eventLog: [],
     connect: async () => {
       try {
         await ensureConnected(socket, set);

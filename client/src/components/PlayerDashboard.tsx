@@ -1,15 +1,7 @@
-import type { Player, PlayerColor } from "@risk/shared";
+import type { Player } from "@risk/shared";
 import { useGameStore } from "../store/gameStore";
+import { playerColorMap } from "../utils/playerColors";
 import styles from "./PlayerDashboard.module.css";
-
-const colorMap: Record<PlayerColor, string> = {
-  red: "#d96b6b",
-  blue: "#5fa0e2",
-  green: "#6fbf76",
-  yellow: "#f2d06b",
-  purple: "#b07bd6",
-  orange: "#e28b5f"
-};
 
 const renderPlayerRow = (player: Player, isCurrent: boolean, isLocal: boolean): JSX.Element => {
   return (
@@ -17,7 +9,7 @@ const renderPlayerRow = (player: Player, isCurrent: boolean, isLocal: boolean): 
       <span className={styles.playerName}>
         <span
           className={styles.colorDot}
-          style={{ backgroundColor: colorMap[player.color] }}
+          style={{ backgroundColor: playerColorMap[player.color] }}
         />
         {player.name}
       </span>

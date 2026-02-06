@@ -40,6 +40,8 @@
 - [x] Create lobby / game creation screen (@codex)
 - [x] Implement Socket.io client connection (@codex)
 - [x] Wire up game state to UI via Zustand store (@codex)
+- [x] Add chat panel + event feed (@codex)
+- [x] Add ownership colors + action validation (@codex)
 
 ## Phase 3 — Integration & Polish
 

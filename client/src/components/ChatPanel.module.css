@@ -1,0 +1,65 @@
+.panel {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(18, 23, 30, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f2eee7;
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 160px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.messageRow {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.text {
+  color: #c8d0dc;
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.input {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(8, 11, 15, 0.8);
+  color: #f6f4f0;
+}
+
+.sendButton {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 214, 140, 0.2);
+  color: #f6f4f0;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.muted {
+  color: #c8d0dc;
+  font-size: 12px;
+}

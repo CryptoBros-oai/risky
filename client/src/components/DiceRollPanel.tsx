@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import type { GameEvent } from "@risk/shared";
+import { useEffect, useMemo, useState } from "react";
+import type { GameEvent, TerritoryId } from "@risk/shared";
 import { useGameStore } from "../store/gameStore";
+import { territories } from "../utils/mapData";
 import styles from "./DiceRollPanel.module.css";
 
 const isCombatEvent = (event: GameEvent | null): event is Extract<GameEvent, { type: "combatResult" }> =>
@@ -9,6 +10,9 @@ const isCombatEvent = (event: GameEvent | null): event is Extract<GameEvent, { t
 export const DiceRollPanel = (): JSX.Element => {
   const lastEvent = useGameStore((state) => state.lastEvent);
   const [rollKey, setRollKey] = useState(0);
+  const territoryLookup = useMemo(() => {
+    return new Map<TerritoryId, string>(territories.map((territory) => [territory.id, territory.name]));
+  }, []);
 
   useEffect(() => {
     if (isCombatEvent(lastEvent)) {
@@ -26,12 +30,14 @@ export const DiceRollPanel = (): JSX.Element => {
   }
 
   const { result, attackerId, defenderId } = lastEvent;
+  const attackerName = territoryLookup.get(attackerId) ?? attackerId;
+  const defenderName = territoryLookup.get(defenderId) ?? defenderId;
 
   return (
     <div className={styles.panel}>
       <h2>Combat</h2>
       <div className={styles.subtitle}>
-        {attackerId} → {defenderId}
+        {attackerName} → {defenderName}
       </div>
       <div className={styles.diceRow} key={rollKey}>
         <div className={styles.diceGroup}>

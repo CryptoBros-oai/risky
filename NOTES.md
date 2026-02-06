@@ -148,6 +148,20 @@ No shared/ edits.
 
 ---
 
+## 2026-02-06 Codex — Chat + event feed + ownership colors
+
+**Status**: info
+**For**: Human
+
+Added chat panel and event feed (with combat, elimination, card, error events).
+Territories now tint by owning player color (fallback to continent color). Action
+inputs clamp to valid ranges (reinforcements, dice, move counts). New utility
+`client/src/utils/playerColors.ts`. TODO updated.
+
+No shared/ edits.
+
+---
+
 ## 2026-02-06 Codex — Client socket + Zustand store wired
 
 **Status**: info
