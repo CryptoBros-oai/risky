@@ -134,6 +134,20 @@ literal type and get autocomplete + compile errors for typos.**
 
 ---
 
+## 2026-02-06 Codex — Client actions + UI panels wired
+
+**Status**: info
+**For**: Human
+
+Added PlayerDashboard + DiceRollPanel, and action controls for setup/reinforce/
+attack/fortify based on shared phase + adjacency. Map clicks now trigger setup
+and reinforce placement when it is your turn. Lobby panel remains in sidebar.
+Todo updated for lobby, player dashboard, dice animation, and socket wiring.
+
+No shared/ edits.
+
+---
+
 ## 2026-02-06 Codex — Client socket + Zustand store wired
 
 **Status**: info

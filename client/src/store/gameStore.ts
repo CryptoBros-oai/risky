@@ -4,7 +4,8 @@ import type {
   GameEvent,
   GameState,
   LobbyState,
-  ServerToClientEvents
+  ServerToClientEvents,
+  TerritoryId
 } from "@risk/shared";
 import type { Socket } from "socket.io-client";
 import { getSocket } from "../services/socket";
@@ -15,21 +16,34 @@ type GameStoreState = {
   socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
   connectionStatus: ConnectionStatus;
   connectionError: string | null;
+  localPlayerName: string | null;
+  localPlayerId: string | null;
   lobby: LobbyState | null;
   gameState: GameState | null;
   lastEvent: GameEvent | null;
   connect: () => Promise<void>;
   disconnect: () => void;
+  setLocalPlayerName: (name: string) => void;
   createLobby: (playerName: string) => Promise<string>;
   joinLobby: (gameId: string, playerName: string) => Promise<{ ok: boolean; error?: string }>;
   setReady: () => void;
   startGame: () => void;
   sendChat: (message: string) => void;
+  setupPlace: (territoryId: TerritoryId) => void;
+  reinforcePlace: (territoryId: TerritoryId, count: number) => void;
+  tradeCards: (cardIds: [string, string, string]) => void;
+  reinforceDone: () => void;
+  attack: (fromId: TerritoryId, toId: TerritoryId, dice?: number) => void;
+  attackMove: (fromId: TerritoryId, toId: TerritoryId, count: number) => void;
+  attackDone: () => void;
+  fortify: (fromId: TerritoryId, toId: TerritoryId, count: number) => void;
+  fortifyDone: () => void;
 };
 
 const registerSocketListeners = (
   socket: Socket<ServerToClientEvents, ClientToServerEvents>,
-  set: (state: Partial<GameStoreState>) => void
+  set: (state: Partial<GameStoreState>) => void,
+  get: () => GameStoreState
 ): void => {
   socket.off("connect");
   socket.off("disconnect");
@@ -52,11 +66,23 @@ const registerSocketListeners = (
   });
 
   socket.on("lobby:update", (state) => {
-    set({ lobby: state });
+    const localName = get().localPlayerName;
+    const localPlayer =
+      localName ? state.players.find((player) => player.name === localName) : undefined;
+    set({
+      lobby: state,
+      localPlayerId: localPlayer?.id ?? get().localPlayerId
+    });
   });
 
   socket.on("game:state", (state) => {
-    set({ gameState: state });
+    const localName = get().localPlayerName;
+    const localPlayer =
+      localName ? state.players.find((player) => player.name === localName) : undefined;
+    set({
+      gameState: state,
+      localPlayerId: localPlayer?.id ?? get().localPlayerId
+    });
   });
 
   socket.on("game:event", (event) => {
@@ -97,12 +123,14 @@ const ensureConnected = async (
 
 export const useGameStore = create<GameStoreState>((set, get) => {
   const socket = getSocket();
-  registerSocketListeners(socket, set);
+  registerSocketListeners(socket, set, get);
 
   return {
     socket,
     connectionStatus: socket.connected ? "connected" : "disconnected",
     connectionError: null,
+    localPlayerName: null,
+    localPlayerId: null,
     lobby: null,
     gameState: null,
     lastEvent: null,
@@ -121,8 +149,12 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       socket.disconnect();
       set({ connectionStatus: "disconnected" });
     },
+    setLocalPlayerName: (name) => {
+      set({ localPlayerName: name });
+    },
     createLobby: async (playerName) => {
       await ensureConnected(socket, set);
+      set({ localPlayerName: playerName });
 
       return new Promise<string>((resolve) => {
         socket.emit("lobby:create", { playerName }, (res) => resolve(res.gameId));
@@ -130,6 +162,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     },
     joinLobby: async (gameId, playerName) => {
       await ensureConnected(socket, set);
+      set({ localPlayerName: playerName });
 
       return new Promise<{ ok: boolean; error?: string }>((resolve) => {
         socket.emit("lobby:join", { gameId, playerName }, (res) => resolve(res));
@@ -155,6 +188,69 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         return;
       }
       socket.emit("chat:send", { message });
+    },
+    setupPlace: (territoryId) => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:setupPlace", { territoryId });
+    },
+    reinforcePlace: (territoryId, count) => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:reinforcePlace", { territoryId, count });
+    },
+    tradeCards: (cardIds) => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:tradeCards", { cardIds });
+    },
+    reinforceDone: () => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:reinforceDone");
+    },
+    attack: (fromId, toId, dice) => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:attack", { fromId, toId, dice });
+    },
+    attackMove: (fromId, toId, count) => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:attackMove", { fromId, toId, count });
+    },
+    attackDone: () => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:attackDone");
+    },
+    fortify: (fromId, toId, count) => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:fortify", { fromId, toId, count });
+    },
+    fortifyDone: () => {
+      if (!socket.connected) {
+        set({ connectionError: "Not connected" });
+        return;
+      }
+      socket.emit("game:fortifyDone");
     }
   };
 });

@@ -35,9 +35,9 @@
 - [x] Create game board component with SVG territory map (@codex)
 - [x] Add adjacency highlighting on map interactions (@codex)
 - [x] Refine map visuals (parchment, labels, badges) (@codex)
-- [ ] Create player dashboard (troops, cards, status) (@codex)
-- [ ] Create dice roll animation component (@codex)
-- [ ] Create lobby / game creation screen (@codex)
+- [x] Create player dashboard (troops, cards, status) (@codex)
+- [x] Create dice roll animation component (@codex)
+- [x] Create lobby / game creation screen (@codex)
 - [x] Implement Socket.io client connection (@codex)
 - [x] Wire up game state to UI via Zustand store (@codex)
 

@@ -12,7 +12,8 @@ export const LobbyPanel = (): JSX.Element => {
     createLobby,
     joinLobby,
     setReady,
-    startGame
+    startGame,
+    setLocalPlayerName
   } = useGameStore();
 
   const [playerName, setPlayerName] = useState("");
@@ -93,7 +94,11 @@ export const LobbyPanel = (): JSX.Element => {
         <input
           className={styles.input}
           value={playerName}
-          onChange={(event) => setPlayerName(event.target.value)}
+          onChange={(event) => {
+            const name = event.target.value;
+            setPlayerName(name);
+            setLocalPlayerName(name);
+          }}
           placeholder="Commander"
         />
       </label>
