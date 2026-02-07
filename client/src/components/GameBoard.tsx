@@ -11,6 +11,7 @@ import { PlayerDashboard } from "./PlayerDashboard";
 import { CardTradePanel } from "./CardTradePanel";
 import { TurnSummaryOverlay } from "./TurnSummaryOverlay";
 import styles from "./GameBoard.module.css";
+import riskMapImage from "../assets/risk-map.png";
 
 const territoryOrder = territories.map((territory) => territory.id);
 
@@ -214,24 +215,21 @@ export const GameBoard = ({ gameState = null }: GameBoardProps): JSX.Element => 
       <div className={styles.mapWrapper}>
         <svg className={styles.map} viewBox={MAP_VIEW_BOX} role="img" aria-label="Risk map">
           <defs>
-            <linearGradient id="ocean" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#234f76" />
-              <stop offset="45%" stopColor="#1b3f60" />
-              <stop offset="100%" stopColor="#122c45" />
-            </linearGradient>
-            <filter id="oceanNoise" x="0" y="0" width="100%" height="100%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="noise" />
-              <feColorMatrix in="noise" type="saturate" values="0" result="mono" />
-              <feBlend in="SourceGraphic" in2="mono" mode="soft-light" />
-            </filter>
             <filter id="territoryShadow" x="-30%" y="-30%" width="160%" height="160%">
               <feDropShadow dx="0" dy="3" stdDeviation="2.5" floodColor="#0e1c2a" floodOpacity="0.8" />
             </filter>
           </defs>
 
-          <rect x="0" y="0" width="1200" height="700" fill="url(#ocean)" filter="url(#oceanNoise)" />
-          <rect x="0" y="0" width="1200" height="700" className={styles.gridOverlay} />
-          <rect x="30" y="30" width="1140" height="640" rx="24" className={styles.mapFrame} />
+          <image
+            href={riskMapImage}
+            x="0"
+            y="0"
+            width="800"
+            height="499"
+            preserveAspectRatio="none"
+            className={styles.mapImage}
+          />
+          <rect x="12" y="12" width="776" height="475" rx="16" className={styles.mapFrame} />
 
           {continents.map((continent) => (
             <text

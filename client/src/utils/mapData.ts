@@ -1,44 +1,44 @@
 import type { MapContinent, MapTerritory } from "../types/map";
 import type { TerritoryId } from "@risk/shared";
 
-export const MAP_VIEW_BOX = "0 0 1200 700";
+export const MAP_VIEW_BOX = "0 0 800 499";
 
 export const continents: MapContinent[] = [
   {
     id: "north-america",
     name: "North America",
     color: "#3c7bbf",
-    labelPosition: { x: 230, y: 84 }
+    labelPosition: { x: 153.3, y: 59.9 }
   },
   {
     id: "south-america",
     name: "South America",
     color: "#c35b5b",
-    labelPosition: { x: 338, y: 486 }
+    labelPosition: { x: 225.3, y: 346.4 }
   },
   {
     id: "europe",
     name: "Europe",
     color: "#b09ad6",
-    labelPosition: { x: 548, y: 128 }
+    labelPosition: { x: 365.3, y: 91.2 }
   },
   {
     id: "africa",
     name: "Africa",
     color: "#c2a26a",
-    labelPosition: { x: 618, y: 362 }
+    labelPosition: { x: 412.0, y: 258.1 }
   },
   {
     id: "asia",
     name: "Asia",
     color: "#7dbc71",
-    labelPosition: { x: 890, y: 112 }
+    labelPosition: { x: 593.3, y: 79.8 }
   },
   {
     id: "australia",
     name: "Australia",
     color: "#d98dbf",
-    labelPosition: { x: 1006, y: 566 }
+    labelPosition: { x: 670.7, y: 403.5 }
   }
 ];
 
@@ -47,272 +47,272 @@ export const territories: MapTerritory[] = [
     id: "alaska",
     name: "Alaska",
     continentId: "north-america",
-    svgPath: "58,132 82,110 126,92 168,86 190,106 178,132 145,150 104,158 72,148",
-    center: { x: 132, y: 122 },
+    svgPath: "38.7,94.1 54.7,78.4 84.0,65.6 112.0,61.3 126.7,75.6 118.7,94.1 96.7,106.9 69.3,112.6 48.0,105.5",
+    center: { x: 88.0, y: 87.0 },
     troops: 3
   },
   {
     id: "northwest-territory",
     name: "Northwest Territory",
     continentId: "north-america",
-    svgPath: "170,104 228,92 294,95 328,116 314,150 268,166 212,160 178,136",
-    center: { x: 252, y: 128 },
+    svgPath: "113.3,74.1 152.0,65.6 196.0,67.7 218.7,82.7 209.3,106.9 178.7,118.3 141.3,114.1 118.7,96.9",
+    center: { x: 168.0, y: 91.2 },
     troops: 2
   },
   {
     id: "greenland",
     name: "Greenland",
     continentId: "north-america",
-    svgPath: "326,70 382,54 452,58 490,90 474,128 428,152 366,142 334,110",
-    center: { x: 410, y: 104 },
+    svgPath: "217.3,49.9 254.7,38.5 301.3,41.3 326.7,64.2 316.0,91.2 285.3,108.4 244.0,101.2 222.7,78.4",
+    center: { x: 273.3, y: 74.1 },
     troops: 4
   },
   {
     id: "western-us",
     name: "Western United States",
     continentId: "north-america",
-    svgPath: "186,168 250,168 288,190 282,236 236,258 188,246 164,208",
-    center: { x: 232, y: 214 },
+    svgPath: "124.0,119.8 166.7,119.8 192.0,135.4 188.0,168.2 157.3,183.9 125.3,175.4 109.3,148.3",
+    center: { x: 154.7, y: 152.6 },
     troops: 5
   },
   {
     id: "eastern-us",
     name: "Eastern United States",
     continentId: "north-america",
-    svgPath: "286,188 352,186 388,210 382,254 342,278 300,264 282,232",
-    center: { x: 334, y: 230 },
+    svgPath: "190.7,134.0 234.7,132.6 258.7,149.7 254.7,181.1 228.0,198.2 200.0,188.2 188.0,165.4",
+    center: { x: 222.7, y: 164.0 },
     troops: 3
   },
   {
     id: "central-america",
     name: "Central America",
     continentId: "north-america",
-    svgPath: "250,258 294,268 314,300 300,330 264,332 236,308",
-    center: { x: 275, y: 302 },
+    svgPath: "166.7,183.9 196.0,191.0 209.3,213.9 200.0,235.2 176.0,236.7 157.3,219.6",
+    center: { x: 183.3, y: 215.3 },
     troops: 1
   },
   {
     id: "venezuela",
     name: "Venezuela",
     continentId: "south-america",
-    svgPath: "298,324 344,332 354,366 332,392 292,386 278,354",
-    center: { x: 318, y: 360 },
+    svgPath: "198.7,231.0 229.3,236.7 236.0,260.9 221.3,279.4 194.7,275.2 185.3,252.4",
+    center: { x: 212.0, y: 256.6 },
     troops: 2
   },
   {
     id: "peru",
     name: "Peru",
     continentId: "south-america",
-    svgPath: "286,392 332,396 340,440 316,484 278,476 262,432",
-    center: { x: 304, y: 438 },
+    svgPath: "190.7,279.4 221.3,282.3 226.7,313.7 210.7,345.0 185.3,339.3 174.7,308.0",
+    center: { x: 202.7, y: 312.2 },
     troops: 2
   },
   {
     id: "brazil",
     name: "Brazil",
     continentId: "south-america",
-    svgPath: "340,366 408,374 424,436 416,504 370,548 324,528 326,444",
-    center: { x: 370, y: 458 },
+    svgPath: "226.7,260.9 272.0,266.6 282.7,310.8 277.3,359.3 246.7,390.6 216.0,376.4 217.3,316.5",
+    center: { x: 246.7, y: 326.5 },
     troops: 4
   },
   {
     id: "argentina",
     name: "Argentina",
     continentId: "south-america",
-    svgPath: "320,484 370,550 358,620 320,656 286,646 278,566",
-    center: { x: 322, y: 588 },
+    svgPath: "213.3,345.0 246.7,392.1 238.7,442.0 213.3,467.6 190.7,460.5 185.3,403.5",
+    center: { x: 214.7, y: 419.2 },
     troops: 1
   },
   {
     id: "great-britain",
     name: "Great Britain",
     continentId: "europe",
-    svgPath: "446,150 474,136 500,144 504,172 486,194 456,188 444,166",
-    center: { x: 474, y: 166 },
+    svgPath: "297.3,106.9 316.0,96.9 333.3,102.7 336.0,122.6 324.0,138.3 304.0,134.0 296.0,118.3",
+    center: { x: 316.0, y: 118.3 },
     troops: 2
   },
   {
     id: "northern-europe",
     name: "Northern Europe",
     continentId: "europe",
-    svgPath: "500,148 560,146 594,170 584,204 538,220 500,198",
-    center: { x: 548, y: 182 },
+    svgPath: "333.3,105.5 373.3,104.1 396.0,121.2 389.3,145.4 358.7,156.8 333.3,141.1",
+    center: { x: 365.3, y: 129.7 },
     troops: 3
   },
   {
     id: "western-europe",
     name: "Western Europe",
     continentId: "europe",
-    svgPath: "486,204 542,220 550,262 516,292 474,274 466,236",
-    center: { x: 510, y: 252 },
+    svgPath: "324.0,145.4 361.3,156.8 366.7,186.8 344.0,208.2 316.0,195.3 310.7,168.2",
+    center: { x: 340.0, y: 179.6 },
     troops: 2
   },
   {
     id: "southern-europe",
     name: "Southern Europe",
     continentId: "europe",
-    svgPath: "548,204 610,204 630,236 614,272 566,286 540,258",
-    center: { x: 584, y: 244 },
+    svgPath: "365.3,145.4 406.7,145.4 420.0,168.2 409.3,193.9 377.3,203.9 360.0,183.9",
+    center: { x: 389.3, y: 173.9 },
     troops: 2
   },
   {
     id: "ukraine",
     name: "Ukraine",
     continentId: "europe",
-    svgPath: "590,150 666,150 702,184 692,226 640,242 606,220",
-    center: { x: 648, y: 188 },
+    svgPath: "393.3,106.9 444.0,106.9 468.0,131.2 461.3,161.1 426.7,172.5 404.0,156.8",
+    center: { x: 432.0, y: 134.0 },
     troops: 4
   },
   {
     id: "north-africa",
     name: "North Africa",
     continentId: "africa",
-    svgPath: "506,290 578,286 636,300 654,336 632,372 572,386 522,362 492,324",
-    center: { x: 576, y: 330 },
+    svgPath: "337.3,206.7 385.3,203.9 424.0,213.9 436.0,239.5 421.3,265.2 381.3,275.2 348.0,258.1 328.0,231.0",
+    center: { x: 384.0, y: 235.2 },
     troops: 3
   },
   {
     id: "egypt",
     name: "Egypt",
     continentId: "africa",
-    svgPath: "634,300 676,298 694,330 674,356 642,348",
-    center: { x: 664, y: 326 },
+    svgPath: "422.7,213.9 450.7,212.4 462.7,235.2 449.3,253.8 428.0,248.1",
+    center: { x: 442.7, y: 232.4 },
     troops: 2
   },
   {
     id: "congo",
     name: "Congo",
     continentId: "africa",
-    svgPath: "560,388 614,390 632,430 620,478 576,480 548,438",
-    center: { x: 590, y: 432 },
+    svgPath: "373.3,276.6 409.3,278.0 421.3,306.5 413.3,340.7 384.0,342.2 365.3,312.2",
+    center: { x: 393.3, y: 308.0 },
     troops: 2
   },
   {
     id: "east-africa",
     name: "East Africa",
     continentId: "africa",
-    svgPath: "632,350 700,354 730,390 722,448 684,490 636,470 616,424",
-    center: { x: 674, y: 420 },
+    svgPath: "421.3,249.5 466.7,252.4 486.7,278.0 481.3,319.4 456.0,349.3 424.0,335.0 410.7,302.3",
+    center: { x: 449.3, y: 299.4 },
     troops: 3
   },
   {
     id: "south-africa",
     name: "South Africa",
     continentId: "africa",
-    svgPath: "584,484 654,486 686,536 666,594 616,620 570,576",
-    center: { x: 626, y: 552 },
+    svgPath: "389.3,345.0 436.0,346.4 457.3,382.1 444.0,423.4 410.7,442.0 380.0,410.6",
+    center: { x: 417.3, y: 393.5 },
     troops: 2
   },
   {
     id: "madagascar",
     name: "Madagascar",
     continentId: "africa",
-    svgPath: "724,446 754,462 748,526 720,518 710,476",
-    center: { x: 732, y: 488 },
+    svgPath: "482.7,317.9 502.7,329.3 498.7,375.0 480.0,369.3 473.3,339.3",
+    center: { x: 488.0, y: 347.9 },
     troops: 1
   },
   {
     id: "middle-east",
     name: "Middle East",
     continentId: "asia",
-    svgPath: "682,236 744,238 778,264 770,304 726,326 682,304",
-    center: { x: 730, y: 274 },
+    svgPath: "454.7,168.2 496.0,169.7 518.7,188.2 513.3,216.7 484.0,232.4 454.7,216.7",
+    center: { x: 486.7, y: 195.3 },
     troops: 3
   },
   {
     id: "ural",
     name: "Ural",
     continentId: "asia",
-    svgPath: "682,154 742,152 766,176 756,222 706,234 678,202",
-    center: { x: 724, y: 188 },
+    svgPath: "454.7,109.8 494.7,108.4 510.7,125.5 504.0,158.3 470.7,166.8 452.0,144.0",
+    center: { x: 482.7, y: 134.0 },
     troops: 2
   },
   {
     id: "siberia",
     name: "Siberia",
     continentId: "asia",
-    svgPath: "750,128 856,122 930,146 952,190 900,222 808,216 754,180",
-    center: { x: 850, y: 172 },
+    svgPath: "500.0,91.2 570.7,87.0 620.0,104.1 634.7,135.4 600.0,158.3 538.7,154.0 502.7,128.3",
+    center: { x: 566.7, y: 122.6 },
     troops: 4
   },
   {
     id: "yakutsk",
     name: "Yakutsk",
     continentId: "asia",
-    svgPath: "930,118 1006,112 1060,132 1064,176 1018,206 944,186",
-    center: { x: 996, y: 156 },
+    svgPath: "620.0,84.1 670.7,79.8 706.7,94.1 709.3,125.5 678.7,146.8 629.3,132.6",
+    center: { x: 664.0, y: 111.2 },
     troops: 2
   },
   {
     id: "kamchatka",
     name: "Kamchatka",
     continentId: "asia",
-    svgPath: "1062,134 1138,140 1166,178 1156,226 1098,238 1060,200",
-    center: { x: 1118, y: 184 },
+    svgPath: "708.0,95.5 758.7,99.8 777.3,126.9 770.7,161.1 732.0,169.7 706.7,142.6",
+    center: { x: 745.3, y: 131.2 },
     troops: 3
   },
   {
     id: "mongolia",
     name: "Mongolia",
     continentId: "asia",
-    svgPath: "844,228 920,224 968,248 966,286 910,310 844,292 812,258",
-    center: { x: 894, y: 258 },
+    svgPath: "562.7,162.5 613.3,159.7 645.3,176.8 644.0,203.9 606.7,221.0 562.7,208.2 541.3,183.9",
+    center: { x: 596.0, y: 183.9 },
     troops: 2
   },
   {
     id: "china",
     name: "China",
     continentId: "asia",
-    svgPath: "796,260 892,264 944,292 950,344 900,382 826,376 780,328",
-    center: { x: 866, y: 316 },
+    svgPath: "530.7,185.3 594.7,188.2 629.3,208.2 633.3,245.2 600.0,272.3 550.7,268.0 520.0,233.8",
+    center: { x: 577.3, y: 225.3 },
     troops: 5
   },
   {
     id: "india",
     name: "India",
     continentId: "asia",
-    svgPath: "808,344 868,352 898,390 888,446 840,458 800,408",
-    center: { x: 848, y: 398 },
+    svgPath: "538.7,245.2 578.7,250.9 598.7,278.0 592.0,317.9 560.0,326.5 533.3,290.8",
+    center: { x: 565.3, y: 283.7 },
     troops: 2
   },
   {
     id: "japan",
     name: "Japan",
     continentId: "asia",
-    svgPath: "1022,246 1050,252 1056,286 1028,296 1012,272",
-    center: { x: 1036, y: 272 },
+    svgPath: "681.3,175.4 700.0,179.6 704.0,203.9 685.3,211.0 674.7,193.9",
+    center: { x: 690.7, y: 193.9 },
     troops: 1
   },
   {
     id: "indonesia",
     name: "Indonesia",
     continentId: "australia",
-    svgPath: "862,430 926,436 958,458 948,488 898,498 856,472",
-    center: { x: 908, y: 462 },
+    svgPath: "574.7,306.5 617.3,310.8 638.7,326.5 632.0,347.9 598.7,355.0 570.7,336.5",
+    center: { x: 605.3, y: 329.3 },
     troops: 2
   },
   {
     id: "new-guinea",
     name: "New Guinea",
     continentId: "australia",
-    svgPath: "956,452 1022,452 1052,476 1036,510 974,512 944,488",
-    center: { x: 996, y: 486 },
+    svgPath: "637.3,322.2 681.3,322.2 701.3,339.3 690.7,363.6 649.3,365.0 629.3,347.9",
+    center: { x: 664.0, y: 346.4 },
     troops: 1
   },
   {
     id: "western-australia",
     name: "Western Australia",
     continentId: "australia",
-    svgPath: "936,520 1010,520 1038,572 1022,622 960,634 920,582",
-    center: { x: 978, y: 578 },
+    svgPath: "624.0,370.7 673.3,370.7 692.0,407.8 681.3,443.4 640.0,452.0 613.3,414.9",
+    center: { x: 652.0, y: 412.0 },
     troops: 2
   },
   {
     id: "eastern-australia",
     name: "Eastern Australia",
     continentId: "australia",
-    svgPath: "1028,524 1098,536 1110,590 1088,644 1036,656 1014,612",
-    center: { x: 1060, y: 592 },
+    svgPath: "685.3,373.5 732.0,382.1 740.0,420.6 725.3,459.1 690.7,467.6 676.0,436.3",
+    center: { x: 706.7, y: 422.0 },
     troops: 3
   }
 ];
