@@ -8,11 +8,8 @@ export const App = (): JSX.Element => {
   return (
     <div className={styles.app}>
       <header className={styles.header}>
-        <div>
-          <div className={styles.kicker}>RISK: Reimagined</div>
-          <div className={styles.subtitle}>Map surface + live socket state</div>
-        </div>
-        <div className={styles.statusPill}>Frontend build</div>
+        <h1 className={styles.kicker}>RISK: REIMAGINED</h1>
+        <div className={styles.scanline} />
       </header>
 
       <main className={styles.main}>

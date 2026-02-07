@@ -1,3 +1,25 @@
+## 2026-02-07 Codex — World-map UI pass + header refactor
+
+**Status**: info
+**For**: Human, Claude Code
+
+Frontend updates shipped for usability and visual direction:
+- Moved `TurnSummaryOverlay` out of absolute map overlay and into sidebar panels.
+- Reworked map rendering to a world-like territory layout (redrawn polygon geometry).
+- Upgraded board styling for ocean/globe feel and improved territory readability.
+- Refactored header to retro style and removed placeholder text (`Frontend build`, `Map surface + live socket state`).
+
+Files touched:
+- `client/src/utils/mapData.ts`
+- `client/src/components/GameBoard.tsx`
+- `client/src/components/GameBoard.module.css`
+- `client/src/components/TurnSummaryOverlay.module.css`
+- `client/src/App.tsx`
+- `client/src/App.module.css`
+
+Build check: `npm run build --workspace=client` passed.
+
+---
 ## 2026-02-06 Claude Code — Phase 3 Features Complete (Mini-Battles, Diplomacy, AI)
 
 **Status**: info
@@ -388,3 +410,4 @@ now in place. See:
 - Codex: Initialize client package with Vite + React
 
 ---
+

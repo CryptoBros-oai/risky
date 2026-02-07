@@ -1,38 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Rajdhani:wght@500;700&display=swap");
+
 .app {
   min-height: 100vh;
-  background: linear-gradient(160deg, #0b1118 0%, #1a2431 45%, #0b1118 100%);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(33, 70, 104, 0.7) 0%, rgba(11, 17, 24, 0) 40%),
+    radial-gradient(circle at 90% 16%, rgba(112, 36, 36, 0.45) 0%, rgba(11, 17, 24, 0) 48%),
+    linear-gradient(160deg, #070d14 0%, #131b26 45%, #0a1118 100%);
   color: #f6f4f0;
+  font-family: "Rajdhani", "Segoe UI", sans-serif;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 28px 8px;
+  position: relative;
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
 }
 
 .kicker {
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  margin-top: 6px;
-  font-size: 13px;
-  color: #b3c1d3;
-}
-
-.statusPill {
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 12px;
-  letter-spacing: 0.8px;
+  margin: 0;
+  font-family: "Orbitron", "Segoe UI", sans-serif;
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 900;
+  letter-spacing: 2.8px;
   text-transform: uppercase;
+  color: #d3eeff;
+  text-shadow:
+    0 0 10px rgba(164, 235, 255, 0.35),
+    0 0 30px rgba(83, 192, 255, 0.28),
+    0 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+.scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0,
+    rgba(255, 255, 255, 0.05) 1px,
+    rgba(255, 255, 255, 0) 4px,
+    rgba(255, 255, 255, 0) 8px
+  );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
 }
 
 .main {
-  padding: 0 12px 24px;
+  padding: 8px 12px 24px;
 }
