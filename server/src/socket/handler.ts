@@ -72,6 +72,26 @@ export function setupSocketHandlers(io: TypedServer): void {
       room?.startGame(socket.id);
     });
 
+    socket.on("lobby:addAi", (data, ack) => {
+      const room = getRoom(socket);
+      if (!room) {
+        ack({ ok: false, error: "Not in a game" });
+        return;
+      }
+      const result = room.addAiPlayer(socket.id, data.difficulty);
+      ack(result);
+    });
+
+    socket.on("lobby:removeAi", (data, ack) => {
+      const room = getRoom(socket);
+      if (!room) {
+        ack({ ok: false, error: "Not in a game" });
+        return;
+      }
+      const result = room.removeAiPlayer(socket.id, data.playerId);
+      ack(result);
+    });
+
     // --- Game events ---
 
     socket.on("game:setupPlace", (data) => {

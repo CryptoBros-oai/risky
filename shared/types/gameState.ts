@@ -306,6 +306,10 @@ export interface LobbyPlayer {
   color: PlayerColor;
   isReady: boolean;
   isHost: boolean;
+  /** Whether this player is an AI bot */
+  isAi: boolean;
+  /** AI difficulty (only set when isAi is true) */
+  aiDifficulty?: AiDifficulty;
 }
 
 export interface LobbyState {
@@ -324,6 +328,8 @@ export interface ClientToServerEvents {
   "lobby:join": (data: { gameId: string; playerName: string }, ack: (res: { ok: boolean; error?: string }) => void) => void;
   "lobby:ready": () => void;
   "lobby:start": () => void;
+  "lobby:addAi": (data: { difficulty: AiDifficulty }, ack: (res: { ok: boolean; error?: string }) => void) => void;
+  "lobby:removeAi": (data: { playerId: string }, ack: (res: { ok: boolean; error?: string }) => void) => void;
   "game:setupPlace": (data: { territoryId: TerritoryId }) => void;
   "game:reinforcePlace": (data: { territoryId: TerritoryId; count: number }) => void;
   "game:tradeCards": (data: { cardIds: [string, string, string] }) => void;

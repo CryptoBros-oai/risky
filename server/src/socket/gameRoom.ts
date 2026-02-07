@@ -48,6 +48,8 @@ interface ConnectedPlayer {
   color: PlayerColor;
   isReady: boolean;
   isHost: boolean;
+  isAi: boolean;
+  aiDifficulty?: AiDifficulty;
 }
 
 export class GameRoom {
@@ -78,6 +80,7 @@ export class GameRoom {
       color,
       isReady: false,
       isHost,
+      isAi: false,
     });
 
     socket.join(this.gameId);
@@ -98,6 +101,44 @@ export class GameRoom {
 
     this.broadcastLobby();
     return this.players.length === 0; // Returns true if room is now empty
+  }
+
+  addAiPlayer(socketId: string, difficulty: AiDifficulty): { ok: boolean; error?: string } {
+    const host = this.players.find((p) => p.socketId === socketId);
+    if (!host?.isHost) return { ok: false, error: "Only the host can add AI players" };
+    if (this.players.length >= MAX_PLAYERS) return { ok: false, error: "Game is full" };
+    if (this.gameState) return { ok: false, error: "Game already started" };
+
+    const diffLabel = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+    const aiCount = this.players.filter((p) => p.isAi).length;
+    const color = COLORS[this.players.length];
+    const playerId = `ai-${this.players.length}`;
+
+    this.players.push({
+      socketId: "", // AI has no socket
+      playerId,
+      name: `Bot ${diffLabel} ${aiCount + 1}`,
+      color,
+      isReady: true, // AI is always ready
+      isHost: false,
+      isAi: true,
+      aiDifficulty: difficulty,
+    });
+
+    this.broadcastLobby();
+    return { ok: true };
+  }
+
+  removeAiPlayer(socketId: string, playerId: string): { ok: boolean; error?: string } {
+    const host = this.players.find((p) => p.socketId === socketId);
+    if (!host?.isHost) return { ok: false, error: "Only the host can remove AI players" };
+
+    const index = this.players.findIndex((p) => p.playerId === playerId && p.isAi);
+    if (index === -1) return { ok: false, error: "AI player not found" };
+
+    this.players.splice(index, 1);
+    this.broadcastLobby();
+    return { ok: true };
   }
 
   setReady(socketId: string): void {
@@ -128,7 +169,17 @@ export class GameRoom {
 
     const names = this.players.map((p) => p.name);
     this.gameState = createGame(names);
+
+    // Mark AI players on the game state
+    const aiPlayerIds = this.players
+      .filter((p) => p.isAi)
+      .map((p) => p.playerId);
+    this.gameState.aiPlayerIds = aiPlayerIds;
+
     this.broadcastState();
+
+    // If first player is AI, kick off their turn
+    this.checkAndRunAiTurn();
   }
 
   private broadcastLobby(): void {
@@ -140,6 +191,8 @@ export class GameRoom {
         color: p.color,
         isReady: p.isReady,
         isHost: p.isHost,
+        isAi: p.isAi,
+        aiDifficulty: p.aiDifficulty,
       })),
       maxPlayers: MAX_PLAYERS,
       isStarting: false,
